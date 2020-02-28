@@ -6,7 +6,10 @@ from .models import Task, User, Project
 
 class DeveloperViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
-    queryset = User.objects.filter(groups__name='developer')
+    queryset = User.objects.all()
+
+    def get_queryset(self):
+        return self.queryset.filter(groups__name='developer')
 
 
 class TaskViewSet(viewsets.ModelViewSet):

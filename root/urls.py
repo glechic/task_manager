@@ -16,7 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from task_manager.auth import login
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('task_manager.urls')),
+    path('auth/', login),
 ]
