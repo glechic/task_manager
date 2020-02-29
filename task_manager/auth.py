@@ -27,6 +27,10 @@ def login(request):
         return Response({'error': 'Invalid Credential'},
                         status=HTTP_404_NOT_FOUND)
 
+    if user.groups.filter(name='manager').count() == 0:
+        return Response({'error': 'Only managers can login'},
+                        status=HTTP_400_BAD_REQUEST)
+
     token, _ = Token.objects.get_or_create(user=user)
     return Response({'token': token.key},
                     status=HTTP_200_OK)
