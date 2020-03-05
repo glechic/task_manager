@@ -1,0 +1,62 @@
+[
+{
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$180000$5Grvrz8ro9BU$nV6M3QwkpDbVIL6DlApimRDul56YivUhXsjsgCgqLvQ=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "karol",
+        "first_name": "Carol",
+        "last_name": "Johnson",
+        "email": "karol@levex.org",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2020-03-05T13:19:17.066Z",
+        "groups": [
+            1
+        ],
+        "user_permissions": []
+    }
+}, {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$180000$MXg91fC2ZVzZ$2xxIdVihQq6falGXT0JgbwhfwEgoPPxFjoXs6SEhpdk=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "klimp",
+        "first_name": "John",
+        "last_name": "Climb",
+        "email": "klimp@levex.org",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2020-03-05T13:17:17.802Z",
+        "groups": [
+            2
+        ],
+        "user_permissions": []
+    }
+}, {
+    "model": "task_manager.project",
+    "pk": 1,
+    "fields": {
+        "title": "task manager system",
+        "member": [
+            1,
+            2
+        ]
+    }
+}, {
+    "model": "task_manager.task",
+    "pk": 1,
+    "fields": {
+        "title": "Tests adding",
+        "description": "There is neccessary to add test",
+        "due_date": "2020-03-05",
+        "status": "T",
+        "project": 1,
+        "owner": 2
+    }
+}
+]
