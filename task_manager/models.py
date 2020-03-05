@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 
 class Project(models.Model):
@@ -27,3 +29,11 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
+
+    def clean_fields(self, exclude=None):
+        super().clean_fields(exclude=exclude)
+        if self.project not in self.owner.project_set.all():
+            raise ValidationError({
+                'owner': _('Task owner must consist of task related project')
+                }, code='required'
+            )
