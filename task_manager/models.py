@@ -32,7 +32,8 @@ class Task(models.Model):
 
     def clean_fields(self, exclude=None):
         super().clean_fields(exclude=exclude)
-        if self.project not in self.owner.project_set.all():
+        #if self.project not in self.owner.project_set.all():
+        if not self.owner.project_set.filter(id=self.project.id).exists():
             raise ValidationError({
                 'owner': _('Task owner must consist of task related project')
                 }, code='required'
