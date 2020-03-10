@@ -12,8 +12,8 @@ from task_manager.models import User, Project, Task
 class CommonTestCase(APITestCase):
 
     def setUp(self):
-        self.dev_data = { 'username': 'test_dev', 'password': 'dev1234' }
-        self.man_data = { 'username': 'test_man', 'password': 'man1234' }
+        self.dev_data = {'username': 'test_dev', 'password': 'dev1234'}
+        self.man_data = {'username': 'test_man', 'password': 'man1234'}
         self.dev = User.objects.create_user(**self.dev_data)
         self.man = User.objects.create_user(**self.man_data)
         self.dev.groups.add(Group.objects.get(name='developer'))
@@ -53,13 +53,15 @@ class UserLoginAPIViewTestCase(CommonTestCase):
 
 
 class ProjectsAPIViewTestCase(CommonTestCase):
-    url = reverse('task_manager:project-list')
+    url_list = reverse('task_manager:project-list')
+    def url_detail(self, pk):
+        return reverse('task_manager:project-detail', kwargs={'pk': pk})
 
     def test_dev_have_safe_only_operations(self):
         self.api_authorization(self.dev_token)
 
         # list
-        response = self.client.get(self.url)
+        response = self.client.get(self.url_list)
         self.assertEqual(200, response.status_code)
 
         # create
@@ -67,14 +69,15 @@ class ProjectsAPIViewTestCase(CommonTestCase):
             "title": "test_project",
             "member": [1]
         }
-        response = self.client.post(self.url, data)
+        response = self.client.post(self.url_list, data)
         self.assertEqual(403, response.status_code)
+
 
     def test_manager_operations(self):
         self.api_authorization(self.man_token)
 
         # list
-        response = self.client.get(self.url)
+        response = self.client.get(self.url_list)
         self.assertEqual(200, response.status_code)
 
         # create
@@ -82,9 +85,18 @@ class ProjectsAPIViewTestCase(CommonTestCase):
             "title": "test_project",
             "member": [1]
         }
-        response = self.client.post(self.url, data)
+        response = self.client.post(self.url_list, data)
+        content = json.loads(response.content)
         self.assertEqual(201, response.status_code)
-        self.assertTrue(set(data).issubset(set(json.loads(response.content))))
+        self.assertTrue(set(data).issubset(set(content)))
+
+        # retrive
+        response = self.client.get(self.url_detail(content['id']))
+        self.assertEqual(200, response.status_code)
+
+        # delete
+        response = self.client.delete(self.url_detail(content['id']))
+        self.assertEqual(204, response.status_code)
 
 
 class TasksAPIViewTestCase(CommonTestCase):
