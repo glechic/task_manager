@@ -14,8 +14,13 @@ class TaskSerializer(serializers.ModelSerializer):
         model = Task
         fields = '__all__'
 
+    def validate(self, data):
+        instance = self.__class__.model(**data)
+        instance.full_clean()
+        return data
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name', 'last_name')
+        fields = ('id', 'username', 'first_name', 'last_name', 'email')

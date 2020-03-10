@@ -1,8 +1,8 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group
 
-from task_manager.models import Project, Task
+from task_manager.models import Project, Task, User
 
 
 class ModelsTests(TestCase):

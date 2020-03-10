@@ -1,7 +1,19 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User as BaseUser
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+
+
+class User(BaseUser):
+    
+    class Meta:
+        proxy = True
+
+    def is_manager(self):
+        return self.groups.filter(name='manager').exists()
+
+    def is_developer(self):
+        return self.groups.filter(name='developer').exists()
 
 
 class Project(models.Model):
