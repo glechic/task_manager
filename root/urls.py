@@ -24,5 +24,5 @@ urlpatterns = [
     path('', include(swagger_urlpatterns)),
     path('admin/', admin.site.urls),
     path('api/', include('task_manager.urls')),
-    path('auth/', views.obtain_auth_token),
+    path('auth/', views.obtain_auth_token, name='login'),
 ]
