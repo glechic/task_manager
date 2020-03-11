@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User as BaseUser
 from django.core.exceptions import ValidationError
@@ -31,10 +32,11 @@ class Task(models.Model):
         (TODO, 'TODO'),
         (DONE, 'DONE'),
     )
-
+    
     title = models.CharField(max_length=32)
     description = models.CharField(max_length=128)
     due_date = models.DateField()
+    assign_date = models.DateField(default=datetime.now())
     status = models.CharField(max_length=1, choices=STATUS, default=TODO, null=False)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
